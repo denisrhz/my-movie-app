@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import HeaderSearch from './HeaderSearch';
 import ContentList from './ContentList';
-import ContentListElement from './ContentListElement';
+// import ContentListElement from './ContentListElement';
 
 const Header = () => {
   return (
@@ -21,8 +21,8 @@ const Header = () => {
             <HeaderSearch v-click-away="awaySearch" v-model="searchQuery">
                 <ContentList v-if="suggestionIsActive"
                 className="absolute overflow-auto flex flex-col w-full py-1 bg-midnight rounded-sm top-10">
-                    <ContentListElement>
-                    </ContentListElement>
+                    {/* <ContentListElement>
+                    </ContentListElement> */}
                 </ContentList>
             </HeaderSearch>
             <div className="flex-none my-auto mx-2 justify-self-end">

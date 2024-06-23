@@ -4,6 +4,7 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 const Pagination = ({ maxVisibleButtons = 7, currentPage, totalPages, onPageChange }) => {
   const [pages, setPages] = useState([]);
+  console.log(currentPage);
 
   useEffect(() => {
     const generatePages = () => {
