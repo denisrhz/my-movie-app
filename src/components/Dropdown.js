@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { v4 as uuidv4 } from 'uuid';
+import CheckboxInput from './CheckboxInput';
 
 const Dropdown = ( {filterParam, setFilterParams, optionKey} ) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,6 +37,23 @@ const Dropdown = ( {filterParam, setFilterParams, optionKey} ) => {
     }
   };
 
+  const dropdownRef = useRef();
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+
   return (
     <div className="relative mx-1 w-max">
       <button className="px-2 py-1.5 text-sm text-start tracking-wide text-white capitalize transition-colors duration-300 bg-midnight rounded-sm hover:bg-neutral-600 focus:outline-none" onClick={toggleDropdown}>
@@ -43,17 +61,13 @@ const Dropdown = ( {filterParam, setFilterParams, optionKey} ) => {
         <span className="float-right pl-4"><FontAwesomeIcon className={`${isOpen ? 'rotate-180' : ''}`} icon={faAngleDown}/></span>
       </button>
       {isOpen && (
-        <div className="absolute overflow-auto max-h-80 grid w-max py-1 bg-midnight rounded-sm top-10 z-10">
-        {filterParam.elements.map((option, index) => (
-            <div className="p-1" key={`${optionKey}-${index}`}>
-            <input
-            type={filterParam.type}
-            value={filterParam.type === 'radio' ? option.name : option.value}
-            name={filterParam.type === 'radio' ? 'year' : ''}
-            onChange={(e) => handleOptionChange(e)} />
-            <label htmlFor={`${optionKey}-${index}`} className="mx-1">{ option.name }</label>
-            </div>
-        ))}
+        <div ref={dropdownRef}  className="absolute overflow-auto max-h-80 grid w-max py-1 bg-midnight rounded-sm top-10 z-10">
+              {filterParam.elements.map((option, index) => (
+        <div className="p-1 text-textfilter" key={`${optionKey}-${index}`}>
+        <CheckboxInput filterParam={filterParam} handleOptionChange ={handleOptionChange} optionKey={optionKey} option={option} index={index}/>
+        </div>
+    ))} 
+          
       </div>
     )}
     </div>

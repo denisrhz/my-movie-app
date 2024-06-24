@@ -59,7 +59,7 @@ const Pagination = ({ maxVisibleButtons = 7, currentPage, totalPages, onPageChan
           <button
             onClick={onClickPreviousPage}
             disabled={currentPage === 1}
-            className="bg-gray-700 hover:bg-gray-600 mx-1 flex h-9 w-9 items-center justify-center text-md tracking-wide capitalize transition-colors duration-300 transform rounded-full focus:outline-none focus:ring focus:ring-purple-300 focus:ring-opacity-20"
+            className="bg-gray-700 hover:bg-gray-600 text-gray-300 mx-1 flex h-9 w-9 items-center justify-center text-md tracking-wide capitalize transition-colors duration-300 transform rounded-full focus:outline-none focus:ring focus:ring-purple-300 focus:ring-opacity-20"
           >
             <FontAwesomeIcon icon={faAngleLeft} />
           </button>
@@ -70,7 +70,7 @@ const Pagination = ({ maxVisibleButtons = 7, currentPage, totalPages, onPageChan
               type="button"
               onClick={() => onClickPage(page.name)}
               disabled={page.isDisabled}
-              className={`bg-gray-700 hover:bg-gray-600 mx-1 flex h-9 w-9 items-center justify-center text-md tracking-wide capitalize transition-colors duration-300 transform rounded-full focus:outline-none focus:ring focus:ring-purple-300 focus:ring-opacity-20 ${
+              className={`bg-gray-700 hover:bg-gray-600 text-gray-300 mx-1 flex h-9 w-9 items-center justify-center text-md tracking-wide capitalize transition-colors duration-300 transform rounded-full focus:outline-none focus:ring focus:ring-purple-300 focus:ring-opacity-20 ${
                 isPageActive(page.name) ? 'bg-purple-600 hover:bg-purple-500' : ''
               }`}
             >
@@ -82,7 +82,7 @@ const Pagination = ({ maxVisibleButtons = 7, currentPage, totalPages, onPageChan
           <button
             onClick={onClickNextPage}
             disabled={currentPage === totalPages}
-            className="bg-gray-700 hover:bg-gray-600 mx-1 flex h-9 w-9 items-center justify-center text-md tracking-wide capitalize transition-colors duration-300 transform rounded-full focus:outline-none focus:ring focus:ring-purple-300 focus:ring-opacity-20"
+            className="bg-gray-700 hover:bg-gray-600 text-gray-300 mx-1 flex h-9 w-9 items-center justify-center text-md tracking-wide capitalize transition-colors duration-300 transform rounded-full focus:outline-none focus:ring focus:ring-purple-300 focus:ring-opacity-20"
           >
             <FontAwesomeIcon icon={faAngleRight} />
           </button>

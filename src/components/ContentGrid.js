@@ -12,13 +12,13 @@ const ContentGrid = ({ movies }) => {
               <Link to={`/movies/${movie.id}`} className="bg-purple-500">
                 <img src={posterPath(movie.poster_path)} className="hover:translate-x-1 hover:-translate-y-1 delay-50 duration-100" alt={movie.title} />
               </Link>
-              <Link to={`/movies/${movie.id}`} className="hover:text-purple-500 text-gray-200 font-semibold">
+              <Link to={`/movies/${movie.id}`} className="hover:text-purple-500 text-text font-semibold">
                 {movie.title}
               </Link>
-              <a href="#" className="hover:text-purple-500 text-sm text-gray-400 -mt-1">78.4K viewers</a>
+              <a href="#" className="hover:text-purple-500 text-sm text-purple-600 -mt-1">78.4K viewers</a>
               <div className="flex flex-row flex-wrap gap-2">
-                <a href="#" className="hover:bg-gray-600 text-gray-300 text-xs font-semibold bg-midnight px-2 py-1 rounded-full">Shooter</a>
-                <a href="#" className="hover:bg-gray-600 text-gray-300 text-xs font-semibold bg-midnight px-2 py-1 rounded-full">FPS</a>
+                <a href="#" className="hover:bg-gray-600 text-purple-200 text-xs font-semibold bg-midnight px-2 py-1 rounded-full">Shooter</a>
+                <a href="#" className="hover:bg-gray-600 text-purple-200 text-xs font-semibold bg-midnight px-2 py-1 rounded-full">FPS</a>
               </div>
             </div>
           </div>

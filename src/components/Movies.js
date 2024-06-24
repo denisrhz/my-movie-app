@@ -8,6 +8,7 @@ import ContentList from './ContentList';
 import { useTranslation } from 'react-i18next';
 import { baseUrl, generateUrl, options, prepareParams, initFilterParams } from '../utils/requestHelper';
 
+
 const Movies = () => {
   const { t, i18n } = useTranslation();
   const [currentPage, setCurrentPage] = useState(1);

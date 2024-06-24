@@ -14,7 +14,7 @@ function Breadcrumbs() {
             </li>
             <li className="inline-flex">
                 <div className="flex items-center gap-2 font-medium opacity-80 transition-colors duration-300 hover:text-primary">
-                    <FontAwesomeIcon icon={faHome} />
+                    <FontAwesomeIcon icon={faChevronRight} />
                     <a href="/movies/">Фильмы</a>
                 </div>
             </li>

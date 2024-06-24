@@ -43,7 +43,7 @@ const ContentList = () => {
             </div>
             <div className="ml-4">
               <h2 className="font-semibold whitespace-pre-wrap">{movie.title}</h2>
-              <p className="mt-1 text-sm text-gray-300">
+              <p className="mt-1 text-sm text-gray-600">
                 <FontAwesomeIcon icon={faStar} size="sm" />
                 {movie.vote_average.toFixed(1)} &bull; {movie.release_date.slice(0, 4)}
               </p>

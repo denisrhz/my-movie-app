@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faStar } from '@fortawesome/free-solid-svg-icons';
 import { Link as RouterLink } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 const HeaderSearch = () => {
   const { t, i18n } = useTranslation();
+  const dropdownRef = useRef();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -36,6 +37,17 @@ const HeaderSearch = () => {
     } else {
       getSearchResults({ query: searchQuery, include_adult: false, page: 1, language: i18n.language, sort_by: "popularity.desc" });
     }
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setSuggestionIsActive(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, [searchQuery, i18n.language]);
 
   return (
@@ -53,7 +65,7 @@ const HeaderSearch = () => {
         <FontAwesomeIcon icon={faSearch} className="text-midnight" />
       </button>
       {suggestionIsActive && (
-        <div className="absolute overflow-auto flex flex-col w-full py-1 bg-midnight rounded-sm top-10">
+        <div ref={dropdownRef} className="absolute overflow-auto flex flex-col w-full py-1 bg-midnight rounded-sm top-10">
           {sortedSearchResults.map(movie => (
             <RouterLink to={`/movies/${movie.id}`} key={movie.id} className="flex items-start p-1 mb-1">
               <div className="flex-none w-2/6">
@@ -61,7 +73,7 @@ const HeaderSearch = () => {
               </div>
               <div className="ml-4">
                 <h2 className="font-semibold whitespace-pre-wrap">{movie.title}</h2>
-                <p className="mt-1 text-sm text-gray-300">
+                <p className="mt-1 text-sm text-purple-600">
                   <FontAwesomeIcon icon={faStar} size="sm" />
                   {movie.vote_average.toFixed(1)} &bull; {movie.release_date.slice(0, 4)}
                 </p>

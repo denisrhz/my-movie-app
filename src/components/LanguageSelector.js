@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const LanguageSelector = () => {
   const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
+  const [language, setLanguage] = useState(localStorage.getItem('language') || 'en')
 
   const changeLanguage = (lng) => {
+    localStorage.setItem('language', lng)
     i18n.changeLanguage(lng);
     setIsOpen(false);
   };
@@ -13,6 +15,10 @@ const LanguageSelector = () => {
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    i18n.changeLanguage(language)
+  }, [language])
 
   return (
     <div className="relative">

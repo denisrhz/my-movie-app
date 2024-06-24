@@ -27,7 +27,9 @@ const resources = {
         genres: "Genres",
         date: "Release Date",
         countries: "Countries",
-        companies: "Companies"
+        companies: "Companies",
+        hours: 'h.',
+        minutes: 'min.',
       }
     },
   },
@@ -56,7 +58,9 @@ const resources = {
         genres: "Жанры",
         date: "Дата выхода",
         countries: "Страны",
-        companies: "Компании"
+        companies: "Компании",
+        hours: 'ч.',
+        minutes: 'мин.',
       }
     },
   },
@@ -85,7 +89,9 @@ const resources = {
         genres: "Žanrid",
         date: "Väljaandmise kuupäev",
         countries: "Riigid",
-        companies: "Firmad"
+        companies: "Firmad",
+        hours: 't.',
+        minutes: 'min.',
       }
     },
   },

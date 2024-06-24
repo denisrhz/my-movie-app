@@ -16,13 +16,13 @@ const Movie = () => {
   const [movieDetails, setMovieDetails] = useState({});
   const [movieCollection, setMovieCollection] = useState({});
 
-  const playerLink = "https://vidsrc.to/embed/movie/" //+ movieId;
+  const playerLink = "https://vidsrc.to/embed/movie/" + movieId;
 
   const posterPath = 'https://image.tmdb.org/t/p/w500/' + movieDetails.poster_path;
 
   const formatRuntime = () => {
     let mins = movieDetails.runtime || 0;
-    return `${Math.trunc(mins / 60)} ч ${mins % 60} мин`;
+    return `${Math.trunc(mins / 60)} ${t('movie_Details.hours')} ${mins % 60} ${t('movie_Details.minutes')}`;
   };
 
   useEffect(() => {
@@ -76,20 +76,20 @@ const Movie = () => {
             <h1 className="text-4xl">{movieDetails.title}</h1>
             <div className="my-3">
               <span className="w-full mx-1 px-2 py-1.5 text-sm tracking-wide text-white bg-purple-600 rounded-md">
-                <FontAwesomeIcon icon={faStar} />
+                <FontAwesomeIcon icon={faStar} className='mr-1'/>
                 {movieDetails.vote_average?.toFixed(1)}
               </span>
-              <span className="w-full mx-1 px-2 py-1.5 text-sm tracking-wide text-white rounded-md">
+              <span className="w-full mx-1 px-2 py-1.5 text-sm tracking-wide text-primary rounded-md">
                 {movieDetails.release_date?.slice(0, 4)}
               </span>
-              <span className="w-full mx-1 px-2 py-1.5 text-sm tracking-wide text-white rounded-md">
+              <span className="w-full mx-1 px-2 py-1.5 text-sm tracking-wide text-primary rounded-md">
                 {formatRuntime()}
               </span>
             </div>
             {movieDetails.tagline && (
               <p className="text-primary">{movieDetails.tagline}</p>
             )}
-            <p className="my-2 text-gray-300">{movieDetails.overview}</p>
+            <p className="my-2 text-purple-600">{movieDetails.overview}</p>
             <div className="flex gap-4">
               <div className="flex flex-col">
                 <div className="flex flex-col mb-3">
