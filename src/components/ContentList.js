@@ -4,16 +4,19 @@ import { posterPath } from '../utils/requestHelper';
 import { baseUrl, generateUrl, options } from '../utils/requestHelper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
 
 
 const ContentList = () => {
+  const { t, i18n } = useTranslation();
+
   const [popularMovies, setPopularMovies] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchPopularMovies = async () => {
+  const fetchPopularMovies = async (params) => {
     setLoading(true);
     try {
-      const url = generateUrl(`${baseUrl}/movie/popular`, { language: 'ru-RU', sort_by: "popularity.desc" });
+      const url = generateUrl(`${baseUrl}/movie/popular`, params);
       const response = await fetch(url, options);
       const data = await response.json();
       setPopularMovies(data.results);
@@ -25,8 +28,8 @@ const ContentList = () => {
   };
 
   useEffect(() => {
-    fetchPopularMovies();
-  }, []);
+    fetchPopularMovies({ language: i18n.language, sort_by: "popularity.desc" });
+  }, [i18n.language]);
 
   return (
     <div className="flex flex-col">

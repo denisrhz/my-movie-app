@@ -5,47 +5,16 @@ import ContentFilter from './ContentFilter';
 import ContentGrid from './ContentGrid';
 import Pagination from './Pagination';
 import ContentList from './ContentList';
-import { baseUrl, generateUrl, options, prepareParams } from '../utils/requestHelper';
+import { useTranslation } from 'react-i18next';
+import { baseUrl, generateUrl, options, prepareParams, initFilterParams } from '../utils/requestHelper';
 
 const Movies = () => {
+  const { t, i18n } = useTranslation();
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [filterParams, setFilterParams] = useState({
-    genres: {
-      name: "Жанры",
-      type: "checkbox",
-      checked: [],
-      elements: []
-    },
-    countries: {
-      name: "Страны",
-      type: "checkbox",
-      checked: [],
-      elements: []
-    },
-    primary_release_dates: {
-      name: "Год",
-      type: "radio",
-      checked: [],
-      elements: Array.from({ length: 24 }, (_, i) => {
-        return { name: `${2000 + i}`, value: { gte: `${2000 + i}-01-01`, lte: `${2000 + i}-12-31`} }
-      })
-    },
-    sort_by: {
-      name: "Сортировать по",
-      type: "radio",
-      checked: [{ name: "Самые новые", value: "primary_release.desc" }],
-      elements: [
-        { name: "Самые популярные", value: "popularity.desc" },
-        { name: "Бюджет", value: "revenue.desc" },
-        { name: "Самые новые", value: "primary_release.desc" },
-        { name: "Средняя оценка", value: "vote_average.desc" },
-        { name: "Кол-во оценок", value: "vote_count.desc" },
-      ]
-    },
-  });
+  const [filterParams, setFilterParams] = useState(initFilterParams(t));
 
   const fetchMovies = async (params) => {
     setLoading(true);
@@ -63,8 +32,8 @@ const Movies = () => {
   };
 
   useEffect(() => {
-      fetchMovies(prepareParams(filterParams, currentPage));
-  }, [currentPage]);
+    fetchMovies(prepareParams(filterParams, currentPage, i18n.language));
+  }, [currentPage, i18n.language, filterParams]);
 
   const onPageChange = (page) => {
     setCurrentPage(page);
@@ -76,7 +45,7 @@ const Movies = () => {
       <div className="min-h-screen container mx-auto">
         <div className="flex flex-wrap lg:flex-nowrap">
           <div className="m-3">
-            <h1 className="mb-3 text-primary text-3xl">Смотреть сериалы онлайн</h1>
+            <h1 className="mb-3 text-primary text-3xl">{t('title')}</h1>
             <ContentFilter fetchMovies={fetchMovies} filterParams={filterParams} setFilterParams={setFilterParams} setCurrentPage={setCurrentPage} className="ml-2" />
             <ContentGrid movies={movies} />
             <Pagination
@@ -86,7 +55,7 @@ const Movies = () => {
             />
           </div>
           <div className="m-3">
-            <h3 className="mb-3 text-3xl text-primary">Лучшие</h3>
+            <h3 className="mb-3 text-3xl text-primary">{t('popular')}</h3>
             <ContentList className="bg-midnight p-3 shadow-lg" />
           </div>
         </div>
