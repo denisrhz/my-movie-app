@@ -6,6 +6,7 @@ const resources = {
     translation: {
       title: 'Watch movies online',
       popular: 'Popular',
+      search: 'Search',
       filters: {
         year: "Year",
         genres: "Genres",
@@ -26,6 +27,7 @@ const resources = {
     translation: {
       title: 'Смотреть фильмы онлайн',
       popular: 'Популярные',
+      search: 'Поиск',
       filters: {
         year: "Год",
         genres: "Жанры",
@@ -46,6 +48,7 @@ const resources = {
     translation: {
       title: 'Vaadata filme online',
       popular: 'Populaarne',
+      search: 'Otsi',
       filters: {
         year: "Aasta",
         genres: "Žanrid",

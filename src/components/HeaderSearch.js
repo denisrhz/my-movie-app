@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faStar } from '@fortawesome/free-solid-svg-icons';
 import { Link as RouterLink } from 'react-router-dom';
+import { baseUrl, generateUrl, options } from '../utils/requestHelper';
+import { useTranslation } from 'react-i18next';
 
 const HeaderSearch = () => {
+  const { t, i18n } = useTranslation();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [suggestionIsActive, setSuggestionIsActive] = useState(false);
@@ -14,32 +18,25 @@ const HeaderSearch = () => {
     setSearchQuery(event.target.value);
   };
 
+  const getSearchResults = (params) => {
+    const url = generateUrl(`${baseUrl}/search/movie`, params);
+    fetch(url, options)
+    .then(response => response.json())
+    .then(response => {
+      setSearchResults(response.results);
+      setSuggestionIsActive(true);
+    })
+    .catch(err => console.error(err));
+};
+
   useEffect(() => {
     if (searchQuery.trim() === '') {
       setSearchResults([]);
       setSuggestionIsActive(false);
     } else {
-      getSearchResults();
+      getSearchResults({ query: searchQuery, include_adult: false, page: 1, language: i18n.language, sort_by: "popularity.desc" });
     }
-  }, [searchQuery]);
-
-  const getSearchResults = () => {
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZGNiOTBlYmY3ZDE5NmRkNWQyMjRmMzg4MWM4M2JjZCIsInN1YiI6IjY0Y2Q5NzA5NTQ5ZGRhMDExYzI3M2ZlOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.8hREDgRimJl9MjrwuqXNP81ptiRYyIxma3ki19xQL8Y'
-      }
-    };
-
-    fetch(`https://api.themoviedb.org/3/search/movie?query=${searchQuery}&include_adult=false&language=ru-RU&page=1`, options)
-      .then(response => response.json())
-      .then(response => {
-        setSearchResults(response.results);
-        setSuggestionIsActive(true);
-      })
-      .catch(err => console.error(err));
-  };
+  }, [searchQuery, i18n.language]);
 
   return (
     <div className="flex-none relative my-auto mx-2">
@@ -47,7 +44,7 @@ const HeaderSearch = () => {
         type="search"
         value={searchQuery}
         onChange={handleInputChange}
-        placeholder="Search"
+        placeholder={t('search')}
         aria-label="Search"
         aria-describedby="button-addon1"
         className="block w-72 p-1 text-base text-gray-600 flex-auto rounded-sm border border-solid border-gray-700 bg-clip-padding px-3 font-normal leading-[1.6] outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-gray-600 focus:text-gray-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none"
