@@ -3,16 +3,20 @@ import { useParams } from 'react-router-dom';
 import Breadcrumbs from './Breadcrumbs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import { baseUrl, generateUrl, options, prepareParams } from '../utils/requestHelper';
+import { baseUrl, generateUrl, options } from '../utils/requestHelper';
+import { useTranslation } from 'react-i18next';
+import Header from './Header';
+import Footer from './Footer';
 
 const Movie = () => {
+  const { t, i18n } = useTranslation();
+  
   const { movieId } = useParams();
-  console.log(movieId);
 
   const [movieDetails, setMovieDetails] = useState({});
   const [movieCollection, setMovieCollection] = useState({});
 
-  const playerLink = "https://vidsrc.to/embed/movie/" + movieId; // Assuming movieId is passed as a prop
+  const playerLink = "https://vidsrc.to/embed/movie/" //+ movieId;
 
   const posterPath = 'https://image.tmdb.org/t/p/w500/' + movieDetails.poster_path;
 
@@ -22,9 +26,11 @@ const Movie = () => {
   };
 
   useEffect(() => {
-    const getMovieDetails = async () => {
+    const getMovieDetails = async (params) => {
+      if (params.language === 'et') {params.language = 'en'}
+      const url = generateUrl(`${baseUrl}/movie/${movieId}`, params);
       try {
-        const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?language=ru-RU`, options);
+        const response = await fetch(url, options);
         const data = await response.json();
         setMovieDetails(data);
       } catch (error) {
@@ -32,10 +38,11 @@ const Movie = () => {
       }
     };
 
-    const getMovieCollection = async () => {
+    const getMovieCollection = async (params) => {
       if (movieDetails.belongs_to_collection) {
+        const url = generateUrl(`${baseUrl}/collection/${movieDetails.belongs_to_collection.id}`, params);
         try {
-          const response = await fetch(`https://api.themoviedb.org/3/collection/${movieDetails.belongs_to_collection.id}?language=ru-RU`, options);
+          const response = await fetch(url, options);
           const data = await response.json();
           setMovieCollection(data);
         } catch (error) {
@@ -44,12 +51,15 @@ const Movie = () => {
       }
     };
 
-    getMovieDetails();
-    // getMovieCollection(); // Uncomment this if you want to fetch movie collection data as well
-  }, [movieId]);
+    getMovieDetails({language: i18n.language});
+    // getMovieCollection({language: i18n.language});
+  }, [movieId,  i18n.language]);
+
+  console.log(movieDetails);
 
   return (
     <div>
+      <Header />
       <Breadcrumbs />
       <iframe
       title='movieIframe'
@@ -73,7 +83,7 @@ const Movie = () => {
                 {movieDetails.release_date?.slice(0, 4)}
               </span>
               <span className="w-full mx-1 px-2 py-1.5 text-sm tracking-wide text-white rounded-md">
-                {formatRuntime}
+                {formatRuntime()}
               </span>
             </div>
             {movieDetails.tagline && (
@@ -83,39 +93,44 @@ const Movie = () => {
             <div className="flex gap-4">
               <div className="flex flex-col">
                 <div className="flex flex-col mb-3">
-                  <span className="text-gray-500 mb-1">Оригинальное название:</span>
+                  <span className="text-gray-500 mb-1">{t('movie_Details.originalName')}:</span>
                   <span>{movieDetails.original_title || "-"}</span>
                 </div>
                 <div className="flex flex-col mb-3">
-                  <span className="text-gray-500 mb-1">Жанры:</span>
-                  {/* Render genres here */}
-                  <span>{null || "-"}</span>
+                  <span className="text-gray-500 mb-1">{t('movie_Details.genres')}:</span>
+                  {!! movieDetails.genres && movieDetails?.genres.map(genre => 
+                    <span>{genre.name}</span>
+                  ) || "-" }
                 </div>
                 <div className="flex flex-col mb-3">
-                  <span className="text-gray-500 mb-1">Страны:</span>
+                  <span className="text-gray-500 mb-1">{t('movie_Details.countries')}:</span>
                   {/* Render countries here */}
-                  <span>{null || "-"}</span>
+                  {!! movieDetails.production_countries && movieDetails?.production_countries.map(country => 
+                    <span>{country.name}</span>
+                  ) || "-" }
                 </div>
               </div>
               <div className="flex flex-col">
                 <div className="flex flex-col mb-3">
-                  <span className="text-gray-500 mb-1">Продолжительность:</span>
-                  <span>{formatRuntime || "-"}</span>
+                  <span className="text-gray-500 mb-1">{t('movie_Details.duration')}:</span>
+                  <span>{formatRuntime() || "-"}</span>
                 </div>
                 <div className="flex flex-col mb-3">
-                  <span className="text-gray-500 mb-1">Дата выхода:</span>
+                  <span className="text-gray-500 mb-1">{t('movie_Details.date')}:</span>
                   <span>{movieDetails.release_date || "-"}</span>
                 </div>
                 <div className="flex flex-col mb-3">
-                  <span className="text-gray-500 mb-1">Компании:</span>
-                  {/* Render production companies here */}
-                  <span>{null || "-"}</span>
+                  <span className="text-gray-500 mb-1">{t('movie_Details.companies')}:</span>
+                  {!! movieDetails.production_companies && movieDetails?.production_companies.map(company => 
+                    <span>{company.name}</span>
+                  ) || "-" }
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

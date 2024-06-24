@@ -19,7 +19,15 @@ const resources = {
           vote_average: "Average rating",
           vote_count: "Number of ratings"
         },
-        filterButton: "Filter"
+        filterButton: "Filter",
+      },
+      movie_Details: {
+        originalName: "Original name",
+        duration: "Duration",
+        genres: "Genres",
+        date: "Release Date",
+        countries: "Countries",
+        companies: "Companies"
       }
     },
   },
@@ -41,6 +49,14 @@ const resources = {
           vote_count: "Кол-во оценок"
         },
         filterButton: "Фильтр"
+      },
+      movie_Details: {
+        originalName: "Оригинальное название",
+        duration: "Продолжительность",
+        genres: "Жанры",
+        date: "Дата выхода",
+        countries: "Страны",
+        companies: "Компании"
       }
     },
   },
@@ -61,7 +77,15 @@ const resources = {
           vote_average: "Keskmine hinnang",
           vote_count: "Hinnangute arv"
         },
-        filterButton: "Filter"
+        filterButton: "Filter",
+      },
+      movie_Details: {
+        originalName: "Esialgne nimi",
+        duration: "Kestus",
+        genres: "Žanrid",
+        date: "Väljaandmise kuupäev",
+        countries: "Riigid",
+        companies: "Firmad"
       }
     },
   },
